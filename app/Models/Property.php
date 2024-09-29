@@ -9,13 +9,14 @@ class Property extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'price', 'bedrooms', 'bathrooms', 'garage_spaces', 'total_area', 'usable_area', 'description', 'featured', 'neighborhood', 'city'];
+    protected $fillable = ['title', 'price', 'bedrooms', 'bathrooms', 'garage_spaces', 'total_area', 'usable_area', 'description', 'featured', 'neighborhood', 'city','category_id'];
 
     // Relacionamento: Um imóvel pertence a uma categoria
-//    public function category()
-//    {
-//        return $this->belongsTo(Category::class);
-//    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 
     // Relacionamento: Um imóvel pode ter muitas imagens
     public function propertyImages()

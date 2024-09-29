@@ -15,8 +15,9 @@ class Category extends Model
     protected $fillable = ['name'];
 
 //    // Relacionamento: Uma categoria pode ter várias propriedades
-//    public function properties()
-//    {
-//        return $this->hasMany(Property::class);
-//    }
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
 }

@@ -33,12 +33,13 @@ class PropertyResource extends Resource
                     Forms\Components\TextInput::make('title')
                         ->required()
                         ->maxLength(105)
-                    ->translateLabel(),
+                        ->translateLabel()
+                        ->columnSpanFull(),  // Faz o campo ocupar uma coluna completa
                     Forms\Components\TextInput::make('price')
                         ->required()
                         ->numeric()
                         ->prefix('R$')
-                    ->translateLabel(),
+                        ->translateLabel(),
                     Forms\Components\TextInput::make('bedrooms')
                         ->required()
                         ->numeric()
@@ -67,33 +68,46 @@ class PropertyResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->translateLabel(),
-                    Forms\Components\Toggle::make('featured')
+                    Forms\Components\Select::make('category_id')
+                        ->relationship('category', 'name') // 'name' é o campo visível da categoria
                         ->required()
                         ->translateLabel(),
                 ]),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Toggle::make('featured')
+                    ->required()
+                    ->translateLabel(),
+                Forms\Components\RichEditor::make('description')
                     ->required()
                     ->translateLabel()
-                    ->columnSpanFull(), // Descrição ocupa uma linha inteira
-
+                    ->columnSpanFull() // Descrição ocupa uma linha inteira
+                    ->toolbarButtons([
+                       'bold',
+                        'h3',
+                        'italic',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo'
+                    ]),
                 // Seção de Upload de Imagens
                 Forms\Components\Repeater::make('property_images') // Nome do campo
                 ->relationship('propertyImages')// Relacionamento correto
                 ->translateLabel()
-                ->schema([
-                    Forms\Components\FileUpload::make('photos')
-                        ->label('Fotos do Imóvel')
-                        ->image()
-                        ->multiple()  // Permitir upload de várias imagens
-                        ->maxFiles(6)
-                        ->maxSize(80000)  // 800 KB limite
-                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                        ->disk('public')  // Define o disco de armazenamento como 'public'
-                        ->directory('properties')  // Define o diretório onde os arquivos serão salvos
-                        ->visibility('public')  // Torna o arquivo publicamente acessível
-                ])
+                    ->schema([
+                        Forms\Components\FileUpload::make('photos')
+                            ->label('Fotos do Imóvel')
+                            ->image()
+                            ->multiple()  // Permitir upload de várias imagens
+                            ->maxFiles(6)
+                            ->maxSize(80000)  // 800 KB limite
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->disk('public')  // Define o disco de armazenamento como 'public'
+                            ->directory('properties')  // Define o diretório onde os arquivos serão salvos
+                            ->visibility('public')  // Torna o arquivo publicamente acessível
+                    ])
                     ->columnSpanFull(), // O Repeater ocupa uma linha inteira
             ]);
+
     }
 
     public static function table(Table $table): Table
@@ -110,6 +124,10 @@ class PropertyResource extends Resource
                 ->sortable() // Ordenável
                 ->toggleable()
                     ->translateLabel(), // Habilita o comportamento de toggle
+                Tables\Columns\TextColumn::make('category.name') // Adiciona a coluna de categoria
+                ->label('Category') // Definindo o rótulo da coluna
+                ->sortable() // Permitir ordenar por categoria
+                ->translateLabel(),
                 Tables\Columns\TextColumn::make('price')
                     ->money('brl',true)
                     ->sortable()

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade'); // Relacionamento com categories
             $table->string('title', 255);
             $table->decimal('price', 10, 2);
             $table->integer('bedrooms');
