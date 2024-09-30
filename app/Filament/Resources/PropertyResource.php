@@ -22,6 +22,15 @@ class PropertyResource extends Resource
         return __('Property');
     }
 
+    public static function canAccess(): bool
+    {
+        $user = auth()->user();
+
+        // Permitir acesso se o usuário for 'admin' ou 'corretor'
+        return $user->role === 'admin' || $user->role === 'corretor';
+    }
+
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -106,7 +115,9 @@ class PropertyResource extends Resource
                             ->visibility('public')  // Torna o arquivo publicamente acessível
                     ])
                     ->columnSpanFull(), // O Repeater ocupa uma linha inteira
+
             ]);
+
 
     }
 

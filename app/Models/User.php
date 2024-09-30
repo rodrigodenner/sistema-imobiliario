@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -43,5 +44,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Extrair o domínio da URL
+        $appUrl = env('APP_URL');
+        $parsedUrl = parse_url($appUrl, PHP_URL_HOST); // Extrai apenas o domínio (host)
+
+        return str_ends_with($this->email, '@' . $parsedUrl) && $this->hasVerifiedEmail();
+    }
+
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCorretor()
+    {
+        return $this->role === 'corretor';
     }
 }

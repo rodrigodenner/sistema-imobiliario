@@ -22,6 +22,12 @@ class UserResource extends Resource
         return __('User');
     }
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -37,6 +43,11 @@ class UserResource extends Resource
                     ->translateLabel()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'admin' => __('Admin'),
+                        'corretor' => __('Corretor'),
+                    ]),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->translateLabel()
@@ -53,6 +64,13 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\SelectColumn::make('role')
+                ->options([
+                        'admin' => __('Admin'),
+                        'corretor' => __('Corretor'),
+                    ])
+                ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Property;
 use App\Observers\PropertyObserver;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         Vite::prefetch(concurrency: 3);
         Property::observe(PropertyObserver::class);
+
+        Gate::define('manage-imoveis', function ($user) {
+            return $user->role === 'corretor';
+        });
+
+
     }
 }

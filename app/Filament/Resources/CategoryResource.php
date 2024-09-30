@@ -21,6 +21,12 @@ class CategoryResource extends Resource
     {
         return __('Category');
     }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
