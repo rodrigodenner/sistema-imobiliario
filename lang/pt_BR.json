@@ -165,9 +165,13 @@
     "Name": "Nome",
     "email": "E-mail",
     "Password": "Senha",
-    "Created at": "Data de Criação",
+    "Created At": "Data de Criação",
     "Updated at": "Última Atualização",
-    "Category": "Categoria"
+    "Category": "Categoria",
+    "Phone": "Telefone",
+    "Type": "Tipo",
+    "Message": "Mensagem",
+    "Address": "Endereço"
 
 
 }
