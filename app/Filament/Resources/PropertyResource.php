@@ -37,13 +37,15 @@ class PropertyResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id') // Vincula o imóvel ao usuário logado
+                ->default(auth()->user()->id)
+                    ->translateLabel(),
                 Forms\Components\Grid::make(3) // Grid para o layout
                 ->schema([
                     Forms\Components\TextInput::make('title')
                         ->required()
                         ->maxLength(105)
-                        ->translateLabel()
-                        ->columnSpanFull(),  // Faz o campo ocupar uma coluna completa
+                        ->translateLabel(),
                     Forms\Components\TextInput::make('price')
                         ->required()
                         ->numeric()
@@ -73,10 +75,17 @@ class PropertyResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->translateLabel(),
+                    Forms\Components\TextInput::make('CEP')
+                    ->required()
+                    ->label('CEP'),
                     Forms\Components\TextInput::make('city')
                         ->required()
                         ->maxLength(255)
                         ->translateLabel(),
+                    Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->maxLength(150)
+                    ->label('Slug'),
                     Forms\Components\Select::make('category_id')
                         ->relationship('category', 'name') // 'name' é o campo visível da categoria
                         ->required()
@@ -111,7 +120,7 @@ class PropertyResource extends Resource
                             ->maxSize(80000)  // 800 KB limite
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->disk('public')  // Define o disco de armazenamento como 'public'
-                            ->directory('properties')  // Define o diretório onde os arquivos serão salvos
+                            ->directory('properties')
                             ->visibility('public')  // Torna o arquivo publicamente acessível
                     ])
                     ->columnSpanFull(), // O Repeater ocupa uma linha inteira
@@ -135,6 +144,9 @@ class PropertyResource extends Resource
                 ->sortable() // Ordenável
                 ->toggleable()
                     ->translateLabel(), // Habilita o comportamento de toggle
+                Tables\Columns\TextColumn::make('user_id') // Alterando para acessar o nome do usuário
+                ->searchable()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('category.name') // Adiciona a coluna de categoria
                 ->label('Category') // Definindo o rótulo da coluna
                 ->sortable() // Permitir ordenar por categoria

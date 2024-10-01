@@ -48,6 +48,9 @@ class UserResource extends Resource
                         'admin' => __('Admin'),
                         'corretor' => __('Corretor'),
                     ]),
+                Forms\Components\TextInput::make('phone')
+                ->translateLabel()
+                ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->translateLabel()
@@ -60,21 +63,12 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\SelectColumn::make('role')
-                ->options([
-                        'admin' => __('Admin'),
-                        'corretor' => __('Corretor'),
-                    ])
-                ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('phone')
             ])
             ->filters([
                 //
