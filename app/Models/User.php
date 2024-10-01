@@ -67,9 +67,11 @@ class User extends Authenticatable
         return $this->role === 'corretor';
     }
 
-    public function user()
+    // Relacionamento: Um usuário pode ter muitos imóveis
+    public function properties()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Property::class);
     }
+
 
 }

@@ -40,10 +40,12 @@ class Property extends Model
         return $this->hasMany(PropertyImage::class);
     }
 
-    public function properties()
+    // Relacionamento: Um imóvel pertence a um usuário
+    public function user()
     {
-        return $this->hasMany(Property::class);
+        return $this->belongsTo(User::class);
     }
+
 
 
 }

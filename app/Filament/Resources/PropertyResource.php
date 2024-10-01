@@ -76,16 +76,16 @@ class PropertyResource extends Resource
                         ->maxLength(255)
                         ->translateLabel(),
                     Forms\Components\TextInput::make('CEP')
-                    ->required()
-                    ->label('CEP'),
+                        ->required()
+                        ->label('CEP'),
                     Forms\Components\TextInput::make('city')
                         ->required()
                         ->maxLength(255)
                         ->translateLabel(),
                     Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(150)
-                    ->label('Slug'),
+                        ->required()
+                        ->maxLength(150)
+                        ->label('Slug'),
                     Forms\Components\Select::make('category_id')
                         ->relationship('category', 'name') // 'name' é o campo visível da categoria
                         ->required()
@@ -99,7 +99,7 @@ class PropertyResource extends Resource
                     ->translateLabel()
                     ->columnSpanFull() // Descrição ocupa uma linha inteira
                     ->toolbarButtons([
-                       'bold',
+                        'bold',
                         'h3',
                         'italic',
                         'redo',
@@ -141,18 +141,16 @@ class PropertyResource extends Resource
                 ->label('Featured') // Definindo o label da coluna
                 ->onColor('success') // Cor quando está ativo (true)
                 ->offColor('danger') // Cor quando está inativo (false)
-                ->sortable() // Ordenável
                 ->toggleable()
                     ->translateLabel(), // Habilita o comportamento de toggle
-                Tables\Columns\TextColumn::make('user_id') // Alterando para acessar o nome do usuário
+                Tables\Columns\TextColumn::make('user.name') // Alterando para acessar o nome do usuário
                 ->searchable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('category.name') // Adiciona a coluna de categoria
                 ->label('Category') // Definindo o rótulo da coluna
-                ->sortable() // Permitir ordenar por categoria
                 ->translateLabel(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money('brl',true)
+                    ->money('brl', true)
                     ->sortable()
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('city')
