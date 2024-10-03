@@ -17,6 +17,8 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
+    protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
+
     public static function getModelLabel(): string
     {
         return __('Category');
@@ -27,7 +29,7 @@ class CategoryResource extends Resource
         return auth()->user()->isAdmin();
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
 
     public static function form(Form $form): Form
     {

@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\GeneralStatsWidget;
+use App\Filament\Widgets\MessageCountWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -36,10 +38,11 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+          ->widgets([
+               Widgets\AccountWidget::class,
+//                Widgets\FilamentInfoWidget::class,
+              GeneralStatsWidget::class,
+          ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

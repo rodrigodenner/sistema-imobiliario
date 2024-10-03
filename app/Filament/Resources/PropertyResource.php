@@ -31,7 +31,7 @@ class PropertyResource extends Resource
     }
 
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
     public static function form(Form $form): Form
     {
@@ -115,16 +115,17 @@ class PropertyResource extends Resource
                         Forms\Components\FileUpload::make('photos')
                             ->label(false)
                             ->image()
+                            ->imageEditor()
+                            ->reorderable()
                             ->multiple()  // Permitir upload de várias imagens
                             ->maxFiles(6)
-                            ->maxSize(80000)  // 800 KB limite
+                            ->maxSize(700000)  // 700 MB limite
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->disk('public')  // Define o disco de armazenamento como 'public'
                             ->directory('properties')
                             ->visibility('public')  // Torna o arquivo publicamente acessível
                     ])
                     ->columnSpanFull(), // O Repeater ocupa uma linha inteira
-
             ]);
 
 
