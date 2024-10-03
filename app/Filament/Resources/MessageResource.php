@@ -81,6 +81,9 @@ class MessageResource extends Resource
                     ->translateLabel()
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\Checkbox::make('is_read')
+                ->translateLabel(),
+
             ]);
     }
 
@@ -88,6 +91,13 @@ class MessageResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\CheckboxColumn::make('no_read')
+                    ->label('Lida')
+                    ->sortable()
+                    ->toggleable()
+                    ->action(function ($record) {
+                        $record->update(['no_read' => !$record->no_read]);
+                    }),
                 Tables\Columns\TextColumn::make('name')
                     ->translateLabel()
                     ->searchable(),
@@ -113,7 +123,11 @@ class MessageResource extends Resource
             ])
             ->defaultSort('created_at', 'desc') // Aplica a ordenação por 'created_at' em ordem decrescente
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->before(function ($record) {
+                        $record->update(['no_read' => false]);
+                    }),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
@@ -134,8 +148,8 @@ class MessageResource extends Resource
     {
         return [
             'index' => Pages\ListMessages::route('/'),
-//            'create' => Pages\CreateMessage::route('/create'),
-//            'edit' => Pages\EditMessage::route('/{record}/edit'),
+            //'create' => Pages\CreateMessage::route('/create'),
+            //'edit' => Pages\EditMessage::route('/{record}/edit'),
         ];
     }
 }

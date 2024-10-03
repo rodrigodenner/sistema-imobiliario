@@ -113,7 +113,7 @@ class PropertyResource extends Resource
                 ->translateLabel()
                     ->schema([
                         Forms\Components\FileUpload::make('photos')
-                            ->label('Fotos do Imóvel')
+                            ->label(false)
                             ->image()
                             ->multiple()  // Permitir upload de várias imagens
                             ->maxFiles(6)
@@ -171,6 +171,7 @@ class PropertyResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),//botão para visualizar
                 Tables\Actions\EditAction::make(), // Botão de Editar
                 Tables\Actions\DeleteAction::make(), // Botão de Excluir ao lado do Editar
             ])

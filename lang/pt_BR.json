@@ -171,7 +171,9 @@
     "Phone": "Telefone",
     "Type": "Tipo",
     "Message": "Mensagem",
-    "Address": "Endereço"
+    "Address": "Endereço",
+    "State": "Estado",
+    "No Read ": "Lida"
 
 
 }
