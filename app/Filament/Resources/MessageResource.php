@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MessageResource\Pages;
 use App\Filament\Resources\MessageResource\RelationManagers;
 use App\Models\Message;
+use Filament\Actions\StaticAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
 
 class MessageResource extends Resource
 {
@@ -82,7 +84,7 @@ class MessageResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\Checkbox::make('is_read')
-                ->translateLabel(),
+                    ->translateLabel(),
 
             ]);
     }
@@ -123,10 +125,63 @@ class MessageResource extends Resource
             ])
             ->defaultSort('created_at', 'desc') // Aplica a ordenação por 'created_at' em ordem decrescente
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->before(function ($record) {
+                Action::make('view')
+                    ->label('Visualizar')
+                    ->icon('heroicon-o-eye') // Ícone de olho
+                    ->modalHeading('Visualizar')
+                    ->form([
+                        Forms\Components\Grid::make(2) // Definindo um grid com 2 colunas
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->label('Nome')
+                                ->default(fn($record) => $record->name),
+
+                            Forms\Components\TextInput::make('email')
+                                ->label('Email')
+                                ->default(fn($record) => $record->email),
+
+                            Forms\Components\TextInput::make('phone')
+                                ->label('Telefone')
+                                ->default(fn($record) => $record->phone),
+
+                            Forms\Components\TextInput::make('type')
+                                ->label('Tipo')
+                                ->default(fn($record) => $record->type),
+
+                            Forms\Components\TextInput::make('address')
+                                ->label('Endereço')
+                                ->default(fn($record) => $record->address),
+
+                            Forms\Components\TextInput::make('bedrooms')
+                                ->label('Quartos')
+                                ->default(fn($record) => $record->bedrooms),
+
+                            Forms\Components\TextInput::make('neighborhood')
+                                ->label('Bairro')
+                                ->default(fn($record) => $record->neighborhood),
+
+                            Forms\Components\TextInput::make('city')
+                                ->label('Cidade')
+                                ->default(fn($record) => $record->city),
+
+                            Forms\Components\TextInput::make('state')
+                                ->label('Estado')
+                                ->default(fn($record) => $record->state),
+
+                            Forms\Components\Textarea::make('message')
+                                ->label('Mensagem')
+                                ->default(fn($record) => $record->message)
+                                ->disabled()
+                                ->columnSpanFull(), // Ocupa toda a linha
+                        ])
+                    ])
+                    ->action(function ($record) {
+                        // Atualiza o campo no banco de dados para marcar como lida
                         $record->update(['no_read' => false]);
-                    }),
+                    })
+                    ->modalButton('Marcar como Lida') // Renomeia o texto do botão
+                    ->modalCloseButton(false) // Remove o botão de fechar no canto superior direito
+                    ->closeModalByClickingAway(false), // Desativa o fechamento ao clicar fora do modal
 
                 Tables\Actions\DeleteAction::make(),
             ])
