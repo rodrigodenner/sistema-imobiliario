@@ -135,6 +135,7 @@ class PropertyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->limit(30)
                     ->searchable()
                     ->translateLabel(),
                 Tables\Columns\ToggleColumn::make('featured') // Alterando para ToggleColumn

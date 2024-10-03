@@ -14,6 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
+use Filament\Notifications\Notification;
 
 class MessageResource extends Resource
 {
@@ -178,7 +179,13 @@ class MessageResource extends Resource
                     ->action(function ($record) {
                         // Atualiza o campo no banco de dados para marcar como lida
                         $record->update(['no_read' => false]);
+
+                        Notification::make()
+                            ->title('Mensagem marcada como lida!')
+                            ->success() // Exibe a notificação com estilo de sucesso
+                            ->send();
                     })
+->disabledForm()
                     ->modalButton('Marcar como Lida') // Renomeia o texto do botão
                     ->modalCloseButton(false) // Remove o botão de fechar no canto superior direito
                     ->closeModalByClickingAway(false), // Desativa o fechamento ao clicar fora do modal
