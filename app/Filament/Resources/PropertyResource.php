@@ -125,7 +125,7 @@ class PropertyResource extends Resource
                             ->directory('properties')
                             ->visibility('public')  // Torna o arquivo publicamente acessível
                     ])
-                    ->columnSpanFull(), // O Repeater ocupa uma linha inteira
+                    ->columnSpanFull(),
             ]);
 
 
